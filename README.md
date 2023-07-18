@@ -2,7 +2,7 @@
 ## 目录 
   
 
- -[用途](#purpose)
+- [用途](#purpose)
 - [参考解决方案](#reference-solution)
 - [参考实现方案](#reference-implementation)
 - [英特尔® 优化实现方案](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
