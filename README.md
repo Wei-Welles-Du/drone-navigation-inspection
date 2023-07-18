@@ -2,7 +2,7 @@
 ## 目录 
   
 
- - [Purpose](#purpose)
+ - 用途 [Purpose](#purpose)
  - [Reference Solution](#reference-solution)
  - [Reference Implementation](#reference-implementation)
  - [Intel® Optimized Implementation](#Intel%C2%AE-Optimized-Implementation)
