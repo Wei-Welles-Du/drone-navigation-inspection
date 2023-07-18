@@ -8,8 +8,6 @@
  - 英特尔®优化实现方式 [Intel® Optimized Implementation](#Intel&reg-Optimized-Implementation)
  - 性能观察 [Performance Observations](#performance-observations)
 
-
-
 ## Purpose  
 | 用途  
 
