@@ -320,8 +320,10 @@ optional arguments:
  python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/stock/frozen_graph.pb  -t 1
 ```
 
-## optimizing the end-to-end-solution-with-intel%C2%AE-oneapi-components  
-| 利用英特尔® oneAPI 组件优化端到端解决方案  
+## Intel® Optimized Implementation  
+optimizing the end-to-end-solution with Intel® oneAPI components  
+英特尔® 优化的实现 | 利用英特尔® oneAPI 组件优化端到端解决方案  
+Intel® Optimized Implementation
 
 ### 用例：端到端流程
 
