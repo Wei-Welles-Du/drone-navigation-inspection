@@ -3,10 +3,10 @@
   
 
  - 用途 [Purpose](#purpose)
- - [Reference Solution](#reference-solution)
- - [Reference Implementation](#reference-implementation)
- - [Intel® Optimized Implementation](#Intel%C2%AE-Optimized-Implementation)
- - [Performance Observations](#performance-observations)
+ - 参考解决方案 [Reference Solution](#reference-solution)
+ - 参考实现方案  [Reference Implementation](#reference-implementation)
+ - 英特尔®优化实现方式 [Intel® Optimized Implementation](#Intel®-Optimized-Implementation)
+ - 性能观察 [Performance Observations](#performance-observations)
 
 
 
@@ -320,7 +320,7 @@ optional arguments:
  python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/stock/frozen_graph.pb  -t 1
 ```
 
-## Intel%C2%AE Optimized Implementation  
+## Intel® Optimized Implementation  
 optimizing the end-to-end-solution with Intel® oneAPI components  
 英特尔® 优化的实现 | 利用英特尔® oneAPI 组件优化端到端解决方案  
 Intel® Optimized Implementation
