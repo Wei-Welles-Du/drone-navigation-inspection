@@ -321,7 +321,6 @@ optional arguments:
 ## Intel&reg; Optimized Implementation  
 optimizing the end-to-end-solution with Intel® oneAPI components  
 英特尔® 优化的实现 | 利用英特尔® oneAPI 组件优化端到端解决方案  
-Intel® Optimized Implementation
 
 ### 用例：端到端流程
 
