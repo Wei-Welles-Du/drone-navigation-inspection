@@ -5,7 +5,7 @@
  - [Purpose](#purpose)
  - [Reference Solution](#reference-solution)
  - [Reference Implementation](#reference-implementation)
- - [Intel® Optimized Implementation](#Intel®-Optimized-Implementation)
+ - [Intel® Optimized Implementation](#Intel%C2%AE-Optimized-Implementation)
  - [Performance Observations](#performance-observations)
 
 
