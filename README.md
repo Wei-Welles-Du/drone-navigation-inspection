@@ -1,141 +1,147 @@
-# Applications of AI in Drone Technology Using TensorFlow
-## Table of Contents 
- - [Purpose](#purpose)
- - [Reference Solution](#reference-solution)
- - [Reference Implementation](#reference-implementation)
- - [Intel® Optimized Implementation](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
- - [Performance Observations](#performance-observations)
+# 人工智能使用 TensorFlow 时在无人机技术中的应用
+## 目录 
+ -[用途](#purpose)
+- [参考解决方案](#reference-solution)
+- [参考实现方案](#reference-implementation)
+- [英特尔® 优化实现方案](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
+- [性能观察](#performance-observations)
 
-## Purpose
-Drones are unmanned aerial vehicles (UAVs) or unmanned aircraft systems. Essentially, a drone is a flying robot that can be remotely controlled using remote control devices which communicate with the drone. While drones have huge applications in urban development, construction & infrastructure, supply chain, logistics use cases etc. safety is a huge concern.
+## 用途
+无人机是无人驾驶飞行器 (UAV) 或无人机系统。从本质上讲，无人机是一种飞行机器人，遥控装置可通过通信功能对其进行远程控制。尽管无人机在城市发展、建筑、基础设施、供应链、物流等领域有着巨大的应用价值，但其安全性却是一个大问题。
 
-Drones are used commercially as first-aid vehicles, as tools for investigation by police departments, in high-tech photography and as recording devices for real estate properties, concerts, sporting events etc. This reference kit model has been built with the objective of improving the safety of autonomous drone flight and landing procedures at the edge (which runs on CPU based hardware) without ground-based controllers or human pilots onsite.
+无人机在商业上被用作急救车、警察部门的调查工具、高科技摄影，以及房地产、音乐会、体育赛事等的记录设备。本参考套件模型旨在提高无人机自主飞行的安全性，并改善在边缘（运行于基于 CPU 的硬件上）的着陆程序，而无需地面控制人员或现场人类飞行员。
 
-Drones at construction sites are used to scan, record, and map locations or buildings land surveys, tracking machines, remote monitoring, construction site security, building inspection, and worker safety. However, drone crashes are dangerous and can lead to devastation.
+建筑工地上的无人机可用于扫描、记录和绘制地点，或用于建筑物土地测量、跟踪机器、远程监控、建筑工地安全保护、建筑物检查和工人安全保障。然而，无人机坠毁是非常危险的事件，可能造成巨大的破坏。
 
-In utilities sector, inspecting growing numbers of towers, powerlines, and wind turbines is difficult and creates prime opportunities for drones to replace human inspection with accurate image-based inspection and diagnosis. Drones transform the way inspection and maintenance personnel do their jobs at utility companies. If a drone meets with an accident while landing, it could damage assets and injure personnel.
+在公用事业领域，越来越多的塔架、电力线和风力涡轮机需要接受检查，这项艰巨的工作为无人机提供了大显身手的好机会，因为无人机能够实施基于图像的精确检查和诊断，从而取代人工检查。无人机改变了公用事业公司检查和维护人员的工作方式。如果无人机在着陆时发生意外，可能造成资产损坏和人员受伤。
 
-Safe landing of drones without injuring people or damaging property is vital for massive adoption of drones in day-to-day life. Considering the risks associated with drone landing, paved areas dedicated for drones to land are considered safe. The AI model created leveraging Intel oneAPI segments paved areas for safe landing.
+无伤人或损坏财产事件的安全着陆对于无人机在日常生活中的大规模采用至关重要。考虑到无人机着陆的相关风险，铺设无人机着陆专用区域被认为是安全之举。利用英特尔 oneAPI 创建的人工智能模型将铺设好的区域分割为安全着陆区域。
 
-The use of AI in the context of drones can be further optimized using Intel® oneAPI which improves the performance of computing intensive image processing, reduces training time and inferencing time and scales the usage of complex models by compressing models to run efficiently on Edge devices. Intel® oneDNN optimized TensorFlow provides additional optimizations for an extra performance boost on Intel® CPU.
+使用英特尔® oneAPI 可以进一步优化人工智能在无人机领域的应用，该工具可以提高计算密集型图像处理的性能，减少训练时间和推理时间，并能够压缩模型，确保其在边缘设备上高效运行，从而扩展复杂模型的使用。经过英特尔® oneDNN 优化的 TensorFlow 可提供额外的优化，进一步提升英特尔® CPU 的性能。
 
-## Reference Solution  
-This reference kit leverages Intel® oneAPI to demonstrate one-way Applications of TensorFlow based AI Model that works on Drone Technology and the AI models developed to help to segment paved areas which increases the probability of landing drones safely.
+## 参考解决方案
 
-The experiment focus is drone navigation for inspections. Therefore, the experiment aims to segment the paved area and different objects around the drone path in order to land the drone safely on the paved area. The goal is therefore to take an image captured by the drone camera as input and pass it through the Semantic Segmentation Model (VGG-UNET architecture) to accurately recognize entities i.e. paved area, people, vehicles, dogs etc. to then benchmark speed and accuracy of training, inference both (batch and real-time) against Intel’s technology.
-When it comes to the deployment of this model on Edge devices with less computing and memory resources such as drones itself, model is quantized and compressed while bringing out the same level of accuracy and efficient utilization of underlying computing resources. Model optimization and compression is done using Intel's INC .
-This reference kit is implemented using Tensorflow 2.8.0 for stock and Tensorflow 2.9.0 with oneDNN in the Intel® environment.
+该参考套件利用英特尔® oneAPI 演示了基于 TensorFlow 的人工智能模型的单向应用，该模型可用于无人机技术，并演示其如何帮助分割铺设区域，从而提高无人机安全着陆的概率。
 
-## Key Implementation Details
-- The framework we used here for building the model which works on Drone technology is TensorFlow. In this reference kit, we highlight the difference of using Intel® oneAPI AI Analytics Toolkit against the stock versions.
-- In this reference kit Computer vision based a VGG-UNET model has been built  which is able to segment the paved area for safe landing of Drone. The model training time, inference time and the accuracy of the model are captured for multiple runs on the stock version as well on the Intel OneAPI version. The average of these runs are considered and the comparison have been provided.
-- Model has been quantized using Intel® Neural Compressor which has shown high performance vectorized operations on Intel® platforms.
+实验重点是无人机导航检查。因此，本实验旨在对无人机路径周围的铺设区域和不同对象进行分割，以便无人机在铺设区域安全着陆。我们的目标是输入无人机摄像头捕捉的图像，将其传输至语义分割模型（VGG-UNET 架构），以准确识别实体，如铺设区域、人、车、狗等，然后以英特尔技术为基准，对训练、推理（批量和实时）的速度和精度进行测试。在无人机等计算和内存资源较少的边缘设备上部署该模型时，对模型进行量化和压缩，同时实现相同的精度和底层计算资源的高效利用。模型的优化和压缩通过英特尔的 INC 完成。在英特尔® 环境中，使用 Tensorflow 2.8.0 原始版本和带有 oneDNN 的 Tensorflow 2.9.0 实施该参考套件。
 
+## 关键实施细节
 
-## Reference Implementation
-### Use Case End-To-End flow
-![Use_case_flow](assets/Stock.png)
+- 我们使用 TensorFlow 框架构建支持无人机技术的模型。在本参考套件中，我们强调了使用英特尔® oneAPI AI 分析工具套件与原始版本的区别。
+- 在本参考套件中，构建了基于计算机视觉的 VGG-UNET 模型，该模型能够分割供无人机安全着陆的铺设区域。模型的训练时间、推理时间和精度是在原始版本和英特尔 oneAPI 版本上多次运行捕捉的结果。计算多次运行的平均值，并进行了比较。
+- 使用英特尔® 神经压缩器对模型进行了量化，表明在英特尔平台上进行的矢量化操作实现了高性能。
 
-### Expected Input-Output
+## 参考实现方案
 
-**Input**                                 | **Output** |
-| :---: | :---: |
-| Imaged data (20 classes)                |  Paved Area Segmentation
+### 用例：端到端流程
 
+![Use\_case\_flow](assets/Stock.png)
 
-### Reference Sources
+### 预计的输入-输出
 
-*DataSet*: https://www.kaggle.com/datasets/bulentsiyah/semantic-drone-dataset (4 GB dataset for this use case)<br>
-*Case Study & Repo*: https://www.kaggle.com/code/bulentsiyah/deep-learning-based-semantic-segmentation-keras/notebook 
+| **输入**| **输出**
+|:----------:|:----------:
+| 图像数据（20 类）| 铺设区域分割
 
-> ***Please see this data set's applicable license for terms and conditions. Intel®Corporation does not own the rights to this data set and does not confer any rights to it.***
+### 参考来源
 
-### Repository clone and Anaconda installation
+*数据集：*https://www.kaggle.com/datasets/bulentsiyah/semantic-drone-dataset（本用例为 4 GB 数据集）<br>*案例研究和存储库：*https://www.kaggle.com/code/bulentsiyah/deep-learning-based-semantic-segmentation-keras/notebook
+
+> ***请参阅此数据集适用许可的条款和条件。英特尔® 公司并未拥有本数据集的权利，也不授予其任何权利。***
+
+### 存储库克隆和 Anaconda 安装
 
 ```
 git clone https://github.com/oneapi-src/drone-navigation-inspection
 cd drone-navigation-inspection
 ```
 
-> In this reference kit implementation already provides the necessary conda environment configurations to setup the software requirements. To utilize these environment scripts, first install Anaconda/Miniconda by following the instructions at the following link<br>[Anaconda installation](https://docs.anaconda.com/anaconda/install/linux/)
+> 在本参考套件中，实现方案提供了必要的 conda 环境配置来设置软件要求。如需使用这些环境脚本，请先按照以下链接中的说明安装 Anaconda/Miniconda<br>[Anaconda 安装](https://docs.anaconda.com/anaconda/install/linux/)
 
-### Usage and Instructions
+### 使用和说明
 
-Below are the steps to reproduce the benchmarking results given in this repository
-1. Creating the execution environment
-2. Dataset preparation
-3. Training VGG-UNET model
-4. Model Inference
-5. Quantize trained models using Intel® Neural Compressor and benchmarking
-6. Observations
+以下是重现该存储库中给出的基准测试结果的步骤
 
+1. 创建执行环境
+2. 数据集准备
+3. 训练 VGG-UNET 模型
+4. 模型推理
+5. 使用英特尔® 神经压缩器和基准量化经过训练的模型
+6. 观察
 
-### Software Requirements
-| **Package**                | **Stock Python**                   
-| :---                       | :---                               
-| Python                     | Python=3.9.7                       
-| TensorFlow                 | TensorFlow==2.8.0                 
-| Intel® Neural Compressor   | *NA*                               
+### 软件要求
 
+| **封装**| **原始版本 Python**
+|:----------|:----------
+| Python| Python=3.9.7
+| TensorFlow| TensorFlow==2.8.0
+| 英特尔® 神经压缩器| *不适用*
 
-### Environment
-Below are the developer environment used for this module on Azure. All the observations captured are based on these environment setup.
+### 环境
 
-| **Size** | **CPU Cores** | **Memory**  | **Intel® CPU Family**
-| :--- | :--: | :--: | :--:
-| *Standard_D8_Vs5* | 8 | 32GB | ICELAKE
+以下是本模块在 Azure 上使用的开发人员环境。所有观测数据均基于此环境设置。
 
-### Solution setup
-The below file is used to create an environment as follows:
+| **大小**| **CPU 内核数**| **内存**| **英特尔® CPU 产品家族**
+|:----------|:----------:|:----------:|:----------:
+| *Standard\_D8\_Vs5*| 8| 32GB| ICELAKE
 
-**YAML file**                                 | **Environment Name** |  **Configuration** |
-| :---: | :---: | :---: |
-| `env/stock/drone-stock.yml`             | `drone-stock` | Python=3.9.7 with stock TensorFlow 2.8.0
+### 解决方案设置
 
-### Dataset
-Pixel-accurate annotation for Drone Dataset focuses on semantic understanding of urban scenes for increasing the safety of Drone landing procedures. The imagery depicts more than 20 houses from nadir (bird's eye) view acquired at an altitude of 5 to 30 meters above ground. A high resolution camera was used to acquire images at a size of 6000x4000px (24Mpx). The complexity of the dataset is limited to 20 classes and the target output is paved area class. The training set contains 320  publicly available images, and the test set is made up of 80 images. Here the train & test dataset split is 80:20.
+以下文件用于创建如下环境：
 
-| **Use case** | Paved Area Segmentation
-| :--- | :---
-| **Object of interest** | Paved Area 
-| **Size** | Total 400 Labelled Images<br>
-| **Train : Test Split** | 80:20
-| **Source** | https://www.kaggle.com/datasets/bulentsiyah/semantic-drone-dataset
+| **YAML file**| **环境名称**| **配置**
+|:----------:|:----------:|:----------:
+| `env/stock/drone-stock.yml`| `drone-stock`| Python=3.9.7 和原始版本 TensorFlow 2.8.0
 
-> **Note**: Please refer to the  data.txt file in the data folder for downloading the dataset.
+### 数据集
 
-### Training
-VGG-UNET is a segmentation based convolutional neural network , a segmentation architecture to segment the Paved Area and other classes from the environment.
-Stock TensorFlow v2.8.0 is used for transfer learning the VGG-UNET segmentation architecture on the semantic drone dataset which has been downloaded and been preprocessed using OpenCV & NumPy .
+无人机数据集的像素精确标注侧重于城市场景的语义理解，以提高无人机着陆程序的安全性。该图像是距地面 5 至 30 米位置的鸟瞰图，图中有 20 多座房屋。使用高分辨率照相机拍摄 6000x4000 像素 (24Mpx) 的图像。数据集的复杂度被限制为 20 类，目标输出为铺设区域类。训练集包含 320 幅公开图像，测试集由 80 幅图像组成。在这里，训练数据集和测试数据集的比例为 80:20。
 
-> **Note**: If any issues regarding CV2 dependency comes like "cv2 import *ImportError: libGL.so.1: cannot open shared object file" or "libgthread-2.0.so.0: cannot open shared object file: No such file or directory" please refer to the known issues section.
+| **用例**| 铺设区域分割
+|:----------|:----------
+| **相关对象**| 铺设区域
+| **大小**| 共计 400 幅标记图像<br>
+| **训练：测试比例**| 80:20
+| **资料来源**| https://www.kaggle.com/datasets/bulentsiyah/semantic-drone-dataset
 
+> **注**：请参考数据文件夹中的 data.txt 文件下载数据集。
 
-| **Input Image Dimension** | 416x608 (preprocessed data)
-| :--- | :---
-| **Output Model format** | TensorFlow checkpoint
-  **Output**  | Paved area segmentation
+### 训练
 
+VGG-UNET 是一个基于分割的卷积神经网络，是一种分割架构，用于从环境中分割出铺设区域和其他类别。原始版本 TensorFlow v2.8.0 用于在已下载并经过 OpenCV 和 NumPy 预处理的语义无人机数据集上对 VGG-UNET 分割架构进行迁移学习。
 
-### Inference
-Performed inferencing on the trained model using Stock TensorFlow v2.8.0.
+> **注**：如果 CV2 依赖项出现"cv2 import \*ImportError: libGL.so.1: 无法打开共享对象文件"或"libgthread-2.0.so.0: 无法打开共享对象文件: 无此类文件或目录"等问题，请参阅已知问题部分。
 
-#### 1. Environment Creation
-**Setting up the environment for Stock TensorFlow**<br>Follow the below conda installation commands to setup the Stock TensorFlow environment for the model training and prediction. 
+| **输入图像尺寸**| 416x608（经过预处理的数据）
+|:----------|:----------
+| **输出模型格式**| TensorFlow 检查点
+| **输出**| 铺设区域分割
+
+### 推理
+
+使用原始版本 TensorFlow v2.8.0 在经过训练的模型上实施推理。
+
+#### 1\.环境创建
+
+**设置原始版本 TensorFlow 的环境**<br>请按照下面的 conda 安装命令来设置原始版本 TensorFlow 环境以进行模型训练和预测。
+
 ```sh
 conda env create -f env/stock/drone-stock.yml
 ```
-*Activate stock conda environment*
-Use the following command to activate the environment that was created:
+
+*激活原始版本 conda 环境* 使用以下命令激活已创建的环境：
+
 ```sh
 conda activate drone-stock
 
 ```
 
-#### 2. Data preparation
-> The Aerial Semantic Segmentation Drone Dataset is downloaded and extracted in a folder before running the training python module.
+#### 2\.数据准备
 
-Folder structure Looks as below after extraction of dataset.
+> 在运行 python 训练模块之前，先从文件夹中下载并提取空中语义分割无人机数据集。
+
+提取数据集后的文件夹结构如下所示。
+
 ```
 - Aerial_Semantic_Segmentation_Drone_Dataset
     - dataset
@@ -144,15 +150,17 @@ Folder structure Looks as below after extraction of dataset.
             - original_images
     - RGB_color_image_masks
 ```
-> **Note**: For instructions to download the dataset, refer the data.txt file inside the data folder.
 
-> **Now the data folder contains the below structure** 
-<br>data="data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset/"
+> **注**：有关下载数据集的说明，请参阅数据文件夹中的 data.txt 文件。
 
-#### 3. Training VGG-UNET model
-Run the training module as given below to start training and prediction on validation dataset (a sample of data held back from training your model that is used to give an estimate of model skill) using the active environment. 
+> **现在，数据文件夹包含以下结构**<br>data="data/Aerial\_Semantic\_Segmentation\_Drone\_Dataset/dataset/semantic\_drone\_dataset/"
 
-<br>This module takes option to run the training.
+#### 3\.训练 VGG-UNET 模型
+
+运行下面给出的训练模块，使用活动环境开始在验证数据集（训练模型时保留的数据样本，用于估算模型技能）上进行训练和预测。
+
+<br>该模块选择运行训练任务。
+
 ```
 usage: training.py [-h] [-m MODEL_PATH] [-d DATA_PATH] [-e EPOCHS] [-hy HYPERPARAMS] [-o OUTPATH]
 
@@ -171,16 +179,17 @@ optional arguments:
 
 ```
 
-**Command to run training**
-> **Note**:Make sure that you are running this command from 'src' folder
+**运行训练任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
+
 ```sh
 cd src
 python training.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset   -e 10  -m ./model -o 0
 
 ```
 
-**Expected Output**<br>
-The output trained model will be saved in TensorFlow checkpoint format in model/stock folder in the current directory once training will get completed as shown in below .Training time in seconds would be generated at the end of the training script.
+**预期输出** <br>训练完成后，输出的训练模型将以 TensorFlow 检查点格式保存在当前目录下的 model/stock 文件夹中，如下图所示。训练时间（秒）将在训练脚本末尾生成。
 
 ```
 model/
@@ -192,16 +201,20 @@ model/
     │  
     │
     └-----intel
-```      
-### Hyperparameter_tuning
+```
 
-Transfer learning was performed as part of default training with the best possible parameters led to considerable drop in Categorial cross-entropy loss.Later trained models are used as a starting point for hyperparameter tuning to boost performance. The parameter search space is confined to the few parameters listed below, however users can utilize this reference implementation to improve the model's performance
+### Hyperparameter\_tuning
 
-**Command to run Hyperparameter tuning**
-> **Note**:Make sure that you are running this command from 'src' folder
+在默认训练中，使用最佳参数实施迁移学习，大幅降低了分类交叉熵损失。后续训练的模型被用作超参数调优的起点，以提高性能。参数搜索空间仅限于下面列出的几个参数，但是用户可以利用这个参考实现方案来提高模型的性能。
+
+**运行超参数调优的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
+
 ```sh
 python training.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -e 3 -m ./model -hy 1 -o 0
 ```
+
 ```
 ** Hyperparameters used here are as below **
 Dataset remains same with 80:20 split for Training and testing.
@@ -212,14 +225,14 @@ batchsize = 4, epochs = 3, steps per epoch = 128
 "loss"                : ["categorical_crossentropy"]
 ```
 
-> We recommend to use the model trained using regular training module as starting point for Hyperparameter tuning. So that one can identify the best possible combinations to get the better accuracy.<br>
+> 我们建议使用经过常规训练模块训练的模型作为超参数调优的起点。这样就可以确定最佳组合，以提高精度。<br>
 
-> **Note**: **The best combinations of  Hyperparameter tuning will get printed end of the script . The model can be retrained for a longer time (more number of epochs)  with the best combination of Hyperparameters to achieve a better accuracy.**
+> **注**：**超参数调优的最佳组合将在脚本末尾打印出来。可以使用最佳的超参数组合对模型进行更长时间（更多的 epoch）的重新训练，以提高精度。**
 
+**将模型转换为冻结图**
 
-**Convert the model to frozen graph**
+运行转换模块，将 TensorFlow 检查点模型格式转换为冻结图格式。该冻结图后续可用于英特尔® 神经压缩器推理。
 
-Run the conversion module to convert the TensorFlow checkpoint model format to frozen graph format. This frozen graph can be later used for Inferencing, Intel® Neural Compressor .
 ```
 usage: create_frozen_graph.py [-h] [-m MODEL_PATH] -o OUTPUT_SAVED_DIR
 
@@ -232,16 +245,19 @@ optional arguments:
 
 ```
 
-**Command to run conversion**
-> **Note**:Make sure that you are running this command from 'src' folder 
+**运行转换任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
+
 ```sh
  python create_frozen_graph.py -m ./model/stock/vgg_unet --output_saved_dir ./model/stock
 ```
-> Above conversion script will save "frozen_graph.pb" in "./model/stock" folder in current directory.
-  
 
-#### 4. Inference
-*Running inference using TensorFlow frozen graph*
+> 以上转换脚本将把 "frozen\_graph.pb" 保存在当前目录下的 "./model/stock" 文件夹中。
+
+#### 4\.推理
+
+*使用 TensorFlow 冻结图运行推理*
 
 ```
 usage: run_inference.py [-h] [-m MODELPATH] [-d DATA_PATH] [-b BATCHSIZE]
@@ -257,18 +273,21 @@ optional arguments:
   -b BATCHSIZE, --batchsize BATCHSIZE
                         batchsize used for inference
 ```
-**Command to run inference**
 
-> **Note**:Make sure that you are running this command from 'src' folder
+**运行推理任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
 
 ```sh
 python run_inference.py -m ./model/stock/frozen_graph.pb -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -b 1
 ```
-> Above inference script can be run using different batch sizes<br>
 
-**Evaluating the model on Test Dataset**
+> 以上推理脚本可使用不同的批次大小运行<br>
 
-Run the evaluation module to find out the class wise accuracy score.
+**在测试数据集上评估模型**
+
+运行评估模块，找出不同类别的精度得分。
+
 ```
 usage: evaluation.py [-h] [-m MODEL_PATH] [-d DATA_PATH] [-t MODEL_TYPE]
 
@@ -282,8 +301,9 @@ optional arguments:
                         0 for checkpoint 1 for frozen_graph
 ```
 
-**Command to run evaluation**
-> **Note**:Make sure that you are running this command from 'src' folder
+**运行评估任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
 
 ```sh
 
@@ -292,79 +312,83 @@ optional arguments:
  python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/stock/frozen_graph.pb  -t 1
 ```
 
-## Optimizing the End To End solution with Intel® oneAPI components
-### Use Case End-To-End flow
-![Use_case_flow](assets/E2E.png)
+## 利用英特尔® oneAPI 组件优化端到端解决方案
 
-### Optimized software requirements
+### 用例：端到端流程
 
-| **Package**                | **Intel® Python**                   
-| :---                       | :---                               
-| Python                     | Python=3.9.7
-| TensorFlow                 | TensorFlow==2.9.0
-| Intel® Neural Compressor  | Intel® Neural Compressor==1.12
- 
+![Use\_case\_flow](assets/E2E.png)
 
-**YAML file**                                 | **Environment Name** |  **Configuration** |
-| :---: | :---: | :---: |
-`env/intel/drone-intel.yml`             | `drone-intel` | Python=3.9.7 with Intel® TensorFlow 2.9.0 |
+### 优化的软件要求
 
+| **封装**| **英特尔® Python**
+|:----------|:----------
+| Python| Python=3.9.7
+| TensorFlow| TensorFlow==2.9.0
+| 英特尔® 神经压缩器| 英特尔® 神经压缩器==1.12
 
-### Training
+| **YAML 文件**| **环境名称**| **配置**
+|:----------:|:----------:|:----------:
+| `env/intel/drone-intel.yml`| `drone-intel`| Python=3.9.7 和英特尔® TensorFlow 2.9.0
 
-VGG-UNET is a segmentation based convolutional neural network ,a segmentation architecture to segment the Paved Area and other classes from the environment.
-Intel® oneDNN optimized TensorFlow v2.9.0 is used for transfer learning the VGG-UNET segmentation architecture on the semantic drone dataset which has been downloaded and been preprocessed using OpenCV & NumPy .
+### 训练
 
-| **Input Image Dimension** | 416x608 (preprocessed data)
-| :--- | :---
-| **Output Model format** | TensorFlow checkpoint
-  **Output**  | Paved area segmentation
+VGG-UNET 是一个基于分割的卷积神经网络，是一种分割架构，用于从环境中分割出铺设区域和其他类别。经过英特尔® oneDNN 优化的 TensorFlow v2.9.0 用于在已下载并经过 OpenCV 和 NumPy 预处理的语义无人机数据集上对 VGG-UNET 分割架构进行迁移学习。
 
-### Inference
+| **输入图像尺寸**| 416x608（经过预处理的数据）
+|:----------|:----------
+| **输出模型格式**| TensorFlow 检查点
+| **输出**| 铺设区域分割
 
-Performed inferencing on the trained model using
-- Intel® oneDNN optimized TensorFlow v2.9.0
-- Intel® Neural Compressor
+### 推理
 
+在经过训练的模型上实施推理，
 
+- 需要使用经过英特尔® oneDNN 优化的 TensorFlow v2.9.0
+- 英特尔® 神经压缩器
 
-#### 1. Environment Creation
+#### 1\.环境创建
 
-**Before setting up the Intel environment please deactivate existing Stock environment by executing below and navigate to cd <installation directory> **
+\*\*在设置英特尔环境之前，请执行以下命令取消激活现有的原始版本环境，并导航到 cd<installation directory> \*\*
+
 ```sh
 cd <installation directory>
 conda deactivate 
-``` 
+```
 
-**Setting up the environment for Intel® oneDNN optimized TensorFlow**<br>Follow the below conda installation commands to setup the Intel® oneDNN optimized TensorFlow environment for the model training and prediction.
+**设置经过英特尔® oneDNN 优化的 TensorFlow 的环境**<br>请按照下面的 conda 安装命令来设置经过英特尔® oneDNN 优化的 TensorFlow 环境以进行模型训练和预测。
+
 ```sh
 cd <installation directory>
 conda env create -f env/intel/drone-intel.yml
 ```
-**Note**:  If any issues regarding installation of pycocotools or gcc dependency appear, refer to the known issues section.
 
-**Activate intel conda environment**
-<br>Use the following command to activate the environment that was created:
+**注**：  如果出现任何关于安装 pycocotools 或 gcc 依赖项的问题，请参考已知问题部分。
+
+**激活英特尔 conda 环境** <br>使用以下命令激活已创建的环境：
+
 ```sh
 conda activate drone-intel
 export TF_ENABLE_ONEDNN_OPTS=1
 ```
-**Intel® oneDNN optimized TensorFlow v2.9.0**
 
-Enable the Intel® oneDNN flag to incorporate below Intel® oneDNN optimized Tensorflow optimizations.
+**需要使用经过英特尔® oneDNN 优化的 TensorFlow v2.9.0**
+
+启用英特尔® oneDNN 标记，以整合以下经过英特尔® oneDNN 优化的 TensorFlow 优化。
+
 ```
 export TF_ENABLE_ONEDNN_OPTS=1
 ```
-#### 2. Data preparation
 
-Data download is automated with the scripts mentioned in data.txt file in data folder
-The same has been already discussed in detail in data preparation section for Stock. The data needs to be downloaded one file at a time before executing the experiment.
+#### 2\.数据准备
 
-#### 3. Training VGG-UNET model
+通过数据文件夹中的 data.txt 文件提到的脚本自动下载数据。在原始版本的数据准备部分已经详细讨论过相同的内容。在执行实验之前，需要一次使用一个文件下载数据。
 
-Run the training module as given below to start training and prediction using the active environment.
+#### 3\.训练 VGG-UNET 模型
 
-This module takes option to run the training.
+运行下面给出的训练模块，使用活动环境开始训练和预测。
+
+该模块选择运行训练任务。
+
 ```
 usage: training.py [-h] [-m MODEL_PATH] [-d DATA_PATH] [-e EPOCHS] [-hy HYPERPARAMS] [-o OUTPATH]
 
@@ -382,16 +406,17 @@ optional arguments:
                         use 1 to save Intel Model by creating intel folder in model path, for stock 0
 
 ```
-**Command to run training**
 
-> **Note**:Make sure that you are running this command from 'src' folder 
+**运行训练任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
 
 ```sh
 python training.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset   -e 10  -m ./model -o 1
 
 ```
-**Expected Output**<br>
-The output trained model will be saved in TensorFlow checkpoint format in model/intel folder in the current directory once training will get completed as shown in below .Training time in seconds would be generated at the end of the training script.
+
+**预期输出** <br>训练完成后，输出的训练模型将以 TensorFlow 检查点格式保存在当前目录下的 model/intel 文件夹中，如下图所示。训练时间（秒）将在训练脚本末尾生成。
 
 ```
 model/
@@ -405,17 +430,19 @@ model/
              ├── vgg_unet.data-00000-of-00001
              ├── checkpoint
 ```
-### Hyperparameter_tuning
 
-Transfer learning was performed as part of default training with the best possible parameters led to considerable drop in Categorial cross-entropy loss.Later trained models are used as a starting point for hyperparameter tuning to boost performance. The parameter search space is confined to the few parameters listed below, however users can utilize this reference implementation to improve the model's performance
+### Hyperparameter\_tuning
 
-**Command to run Hyperparameter tuning**
+在默认训练中，使用最佳参数实施迁移学习，大幅降低了分类交叉熵损失。后续训练的模型被用作超参数调优的起点，以提高性能。参数搜索空间仅限于下面列出的几个参数，但是用户可以利用这个参考实现方案来提高模型的性能。
 
-> **Note**:Make sure that you are running this command from 'src' folder 
+**运行超参数调优的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
 
 ```sh
 python training.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -e 3 -m ./model -hy 1 -o 1
 ```
+
 ```
 Hyperparameters used here are as below
 Dataset remains same with 80:20 split for Training and testing.
@@ -426,14 +453,14 @@ batchsize = 4, epochs = 3, steps per epoch = 128
 "loss"                : ["categorical_crossentropy"]
 ```
 
->We recommend to use the model trained using regular training module as starting point for Hyperparameter tuning. So that one can identify the best possible combinations to get the better accuracy.<br>
+> 我们建议使用经过常规训练模块训练的模型作为超参数调优的起点。这样就可以确定最佳组合，以提高精度。<br>
 
-> **Note**: **The best combinations of  Hyperparameter tuning will get printed end of the script . The model can be retrained for a longer time (more nuber of epochs)  with the best combination of Hyperparameters to achieve a better accuracy.**
+> **注**：**超参数调优的最佳组合将在脚本末尾打印出来。可以使用最佳的超参数组合对模型进行更长时间（更多的 epoch）的重新训练，以提高精度。**
 
+**将模型转换为冻结图**
 
-**Convert the model to frozen graph**
+运行转换模块，将 TensorFlow 检查点模型格式转换为冻结图格式。该冻结图后续可用于英特尔® 神经压缩器推理。
 
-Run the conversion module to convert the TensorFlow checkpoint model format to frozen graph format. This frozen graph can be later used for Inferencing, Intel® Neural Compressor .
 ```
 usage: create_frozen_graph.py [-h] [-m MODEL_PATH] -o OUTPUT_SAVED_DIR
 
@@ -446,15 +473,19 @@ optional arguments:
 
 ```
 
-**Command to run conversion**
-> **Note**:Make sure that you are running this command from 'src' folder 
+**运行转换任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
+
 ```sh
  python create_frozen_graph.py -m ./model/intel/vgg_unet --output_saved_dir ./model/intel
 ```
-> Above conversion script will save "frozen_graph.pb" in "./model/intel" folder in current directory.
 
-#### 4. Inference
-Running inference using TensorFlow frozen graph
+> 以上转换脚本将把 "frozen\_graph.pb" 保存在当前目录下的 "./model/intel" 文件夹中。
+
+#### 4\.推理
+
+使用 TensorFlow 冻结图运行推理
 
 ```
 usage:run_inference.py [-h] [-m MODELPATH] [-d DATA_PATH] [-b BATCHSIZE]
@@ -470,20 +501,21 @@ optional arguments:
   -b BATCHSIZE, --batchsize BATCHSIZE
                         batchsize used for inference
 ```
-**Command to run inference**
-> **Note**:Make sure that you are running this command from 'src' folder 
+
+**运行推理任务的命令**
+
+> **注**：请确保您从"src"文件夹中运行此命令。
 
 ```sh
 python run_inference.py -m ./model/intel/frozen_graph.pb -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -b 1
 ```
-> Above inference script can be run in Intel® environment using different batch sizes<br>
-Same script can be used to benchmark Intel® Neural Compressor INT8 Quantized model. For more details please refer to Intel® Neural Compressor quantization section.<br>
-By using different batchsize one can observe the gain obtained using Intel® oneDNN optimized Tensorflow in Intel® environment.<br>
-Run this script to record multiple trials and the average can be calculated.
 
-**Evaluating the model on Test Dataset**
+> 在英特尔® 环境下，上述推理脚本可使用不同的批次大小运行<br>相同脚本可用于对英特尔® 神经压缩器 INT8 量化模型进行基准测试。有关更多详细信息，请参阅英特尔® 神经压缩器量化部分。<br>通过使用不同的批次大小，可以观察到在英特尔® 环境中使用经过英特尔® oneDNN 优化的 Tensorflow 所实现的性能提升。<br>运行该脚本可记录多次试验并计算平均值。
 
-Run the evaluation module to find out the class wise accuracy score.
+**在测试数据集上评估模型**
+
+运行评估模块，找出不同类别的精度得分。
+
 ```
 usage: evaluation.py [-h] [-m MODEL_PATH] [-d DATA_PATH] [-t MODEL_TYPE]
 
@@ -497,23 +529,25 @@ optional arguments:
                         0 for checkpoint 1 for frozen_graph
 
 ```
-> **Note**:Make sure that you are running this command from 'src' folder 
 
-**Command to run evaluation**
+> **注**：请确保您从"src"文件夹中运行此命令。
+
+**运行评估任务的命令**
+
 ```sh
   python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/intel/vgg_unet -t 0                         
                                                 or
   python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/intel/frozen_graph.pb  -t 1
 
 ```
-> Same script can be used for Evaluating Intel® Neural Compressor INT8 Quantized model. For more details please refer to Intel® Neural Compressor quantization section.<br>
 
+> 相同脚本可用于对英特尔® 神经压缩器 INT8 量化模型进行评估。有关更多详细信息，请参阅英特尔® 神经压缩器量化部分。<br>
 
-#### 5. Quantize trained models using Intel® Neural Compressor
-Intel® Neural Compressor is used to quantize the FP32 Model to the INT8 Model. Optimized model is used here for evaluating and timing Analysis.
-Intel® Neural Compressor supports many optimization methods. In this case, we used post training quantization  method to quantize the FP32 model .
+#### 5\.使用英特尔® 神经压缩器量化经过训练的模型
 
-*Step-1: Conversion of FP32 Model to INT8 Model*
+英特尔® 神经压缩器用于将 FP32 模型量化为 INT8 模型。这里使用优化的模型进行评估和时间分析。英特尔® 神经压缩器支持多种优化方法。在这里，我们使用训练后量化方法对 FP32 模型进行量化。
+
+*步骤 -1：将 FP32 模型转换为 INT8 模型*
 
 ```
 usage: neural_compressor_conversion.py [-h] [-m MODELPATH] [-o OUTPATH] [-c CONFIG] [-d DATA_PATH] [-b BATCHSIZE]
@@ -533,18 +567,20 @@ optional arguments:
                         batchsize for the dataloader....default is 1
 ```
 
-**Command to run the neural_compressor_conversion**
+**运行 neural\_compressor\_conversion 的命令**
 
-**Note**:Activate Intel® Environment before running & Make sure that you are running this command from 'src/intel_neural_compressor' folder 
+**注：**在运行之前激活英特尔® 环境，确保您从'src/intel\_neural\_compressor'文件夹中运行此命令。
+
 ```sh
 cd src/intel_neural_compressor
 python neural_compressor_conversion.py -d ../../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m  ../model/intel/frozen_graph.pb -o  ../model/inc_compressed_model/output
 
 ```
-> Quantized model will be saved by default in `../model/inc_compressed_model` folder as `output.pb`
 
+> 优化的模型默认将保存在 `../model/inc_compressed_model` 文件夹中：`output.pb`
 
-*Step-2: Inferencing using quantized Model*
+*步骤 -2：使用量化的模型进行推理*
+
 ```
 usage: run_inference.py [-h] [-m MODELPATH] [-d DATA_PATH] [-b BATCHSIZE]
 
@@ -559,14 +595,17 @@ optional arguments:
   -b BATCHSIZE, --batchsize BATCHSIZE
                         batchsize used for inference
 ```
-*Command to run inference for realtime `(batchsize =1)`*
+
+*实时运行推理任务的命令 `(batchsize =1)`*
+
 ```sh
 cd <installation directory>/src
  python run_inference.py -m ./model/inc_compressed_model/output.pb -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset  -b 1
 ```
-> Use `-b` to test with different batch size (e.g. `-b 10`)
 
-*Step-3: Evaluating quantized Model*
+> 使用 `-b` 进行测试，支持不同的批次大小（如 `-b 10`）
+
+*第 3 步：对量化模型进行评估*
 
 ```
 usage: evaluation.py [-h] [-m MODEL_PATH] [-d DATA_PATH] [-t MODEL_TYPE]
@@ -581,104 +620,94 @@ optional arguments:
                         0 for checkpoint 1 for frozen_graph
 
 ```
-> **Note**:Make sure that you are running this command from 'src' folder 
 
-**Command to run evaluation**
+> **注**：请确保您从"src"文件夹中运行此命令。
+
+**运行评估任务的命令**
+
 ```sh
 
 python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/inc_compressed_model/output.pb  -t 1
 ```
 
+## 性能观察
 
-## Performance Observations
+本部分介绍了本模型构建中原始版本 TensorFlow 2.8.0 和经过英特尔® oneDNN 优化的 TensorFlow 2.9.0 之间的训练时间和推理时间比较。
 
-This section covers the training time and inference time comparison between Stock TensorFlow 2.8.0 and  Intel®oneDNN optimized TensorFlow 2.9.0 for this model building.
+### 训练和超参数调优基准测试结果
 
-### Training and Hyperparameter_tuning  benchmarking results
+![图像](assets/Regular_Training.png)
 
-![image](assets/Regular_Training.png)
+<br>**要点**<br>与原始版本 TensorFlow 2.8.0 相比，带有英特尔® oneDNN 的 TensorFlow 2.9.0 在常规模型训练中可将训练速度提高 1.4 倍，在超参数调优训练中可将速度提高 1.42 倍。
 
+### 原始版本 TensorFlow2.8.0 FP32 模型、带有 OneDNN 的 TensorFlow2.9.0 FP32模型与英特尔® 神经压缩器 INT8 模型之间的推理基准测试结果对比。
 
+![图像](assets/image.png)
 
-<br>**Key Takeaways**<br>
-TensorFlow 2.9.0 with Intel® oneDNN offers speed up of training time up to 1.4x during regular model training and up to 1.42x speed up during hyperparameter tuned training, as compared to the Stock TensorFlow 2.8.0.
+<br>要点<br>
 
-### Inference benchmarking results Stock TensorFlow 2.8.0 FP32 Model vs TensorFlow 2.9.0 with OneDNN FP32 Model vs Intel® Neural Compressor INT8 Model.
+- 相比于原始版本 TensorFlow 2.8.0 FP32 模型，带有 oneDNN 的 TensorFlow 2.9.0 FP32 模型可将批量预测速度提升高达 1.14 倍。
+- 相比于原始版本 TensorFlow2.8.0 FP32 模型，英特尔® 神经压缩器的量化技术可将批量预测速度提升高达 3.43 倍。在批量较大时，原始版本 Tensorflow 2.8.0 会发生错误。
+- FP32 模型量化后，两个阶段的精度下降仅为 0.001%。
+- 模型占用空间从 47 MB 减少到 12 MB（压缩了约 75%）
 
-![image](assets/image.png)
+## 结论
 
+为构建用于无人机着陆的**铺设区域分割模型**，机器学习开发人员将需要对大量数据集进行模型训练，并更频繁地运行推理。加速训练的能力将有助于他们提高训练频次和精度。除训练之外，更快的推理速度将帮助他们在实时场景中更频繁地运行预测。该参考套件实现方案为无人机安全着陆用例提供了铺设区域分割模型的性能优化指南，可轻松扩展到类似用例。
 
-<br>**Key Takeaways**<br>
+### 通知和免责声明
 
--  Batch prediction time speedup with TensorFlow 2.9.0  with oneDNN FP32 Model shows up to 1.14x against stock TensorFlow 2.8.0 FP32 Model
--  Intel® Neural Compressor quantization offers batch prediction time speedup  up to 3.43x against stock TensorFlow 2.8.0  FP32  model  . At larger batch size, stock Tensorflow 2.8.0 was unable to complete without errors.
--  Accuracy drop of only 0.001% is observed post quantization of FP32 model in both phases.
--  Model Footprint is reduced from 47 MB to 12 MB (~75% Compressed)
+实际性能受使用情况、配置和其他因素的差异影响。更多信息请访问[性能指数网站](https://edc.intel.com/content/www/us/en/products/performance/benchmarks/overview/)。性能结果基于截至配置中所示日期的测试，可能不会反映所有公开可用的更新。  详情请参阅配置信息披露。  没有任何产品或组件是绝对安全的。具体成本和结果可能不同。英特尔技术可能需要启用硬件、软件，或激活服务。<br>©英特尔公司版权所有。  英特尔、英特尔标识以及其他英特尔商标是英特尔公司或其子公司在美国和/或其他国家的商标。  其他的名称和品牌可能是其他所有者的资产。
 
+## 附录
 
+### **实验设置**
 
-## Conclusion
-To build a **paved area segmentation model** for Drone landing , Machine learning developers will need to train models for substantial datasets and run inference more frequently. The ability to accelerate training will allow them to train more frequently and achieve better accuracy. Besides training, faster speed in inference will allow them to run prediction in real-time scenarios as well as more frequently. This reference kit implementation provides performance-optimized guide around paved area segmentation model for Drone safe landing ,use cases that can be easily scaled across similar use cases.
+- 测试实施时间：2022 年 12 月
+- 测试实施者：英特尔公司
+- 配置详细信息：Azure Standard\_D8\_Vs5 （英特尔® 至强® 铂金 8370C CPU @ 2.80Ghz），单插槽，每插槽 4 核，每核 2 个线程，启用睿频，总内存：32 GB，操作系统：Ubuntu 20.04，核心：Linux 5.13.0-1031-azure，软件：Tensorflow 2.9、Tensorflow 2.8、英特尔® 神经压缩器 1.12
 
-### Notices & Disclaimers
-Performance varies by use, configuration and other factors. Learn more on the [Performance Index site](https://edc.intel.com/content/www/us/en/products/performance/benchmarks/overview/). 
-Performance results are based on testing as of dates shown in configurations and may not reflect all publicly available updates.  See backup for configuration details.  No product or component can be absolutely secure. 
-Your costs and results may vary. 
-Intel technologies may require enabled hardware, software or service activation.<br>
-© Intel Corporation.  Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries.  Other names and brands may be claimed as the property of others.  
+| 优化：| **描述**
+|:----------|:----------
+| 平台| Azure Standard D8v5：英特尔® 至强® 铂金 8370C (Ice Lake) @ 2.80GHz，4 个 vCPU，32GB 内存
+| 操作系统| Ubuntu 20.04
+| 硬件| CPU
+| 软件| 面向 Tensorflow v2.9.0 的英特尔® oneAPI 优化，英特尔® 神经压缩器 v1.12
+| 您将学到的知识| 英特尔® oneAPI 相对于原始版本的性能优势
 
-## Appendix
+### 已知问题
 
-### **Experiment setup**
-- Testing performed on: December 2022
-- Testing performed by: Intel Corporation
-- Configuration Details: Azure Standard_D8_Vs5 (Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz), 1 Socket, 4 Cores per Socket, 2 Threads per Core, Turbo:On, Total Memory: 32 GB, OS: Ubuntu 20.04, Kernel: Linux 5.13.0-1031-azure , Software: Tensorflow 2.9, Tensorflow 2.8, Intel® Neural Compressor 1.12 
-
-
-| **Optimized for**:                | **Description**
-| :---                              | :---
-| Platform                          | Azure Standard D8v5 : Intel Xeon Platinum 8370C (Ice Lake) @ 2.80GHz, 4 vCPU, 32GB memory
-| OS                                | Ubuntu 20.04
-| Hardware                          | CPU
-| Software                          | Intel® oneAPI Optimizations for Tensorflow v2.9.0, Intel® Neural Compressor v1.12 
-| What you will learn               | Intel® oneAPI performance advantage over the stock versions
-
-### Known Issues
-
-1. Environment Creation Issue : Could not build wheels for pycocotools
-
-    **Issue:**
-      When creating an intel environment using `drone-intel` 
-      ```
-      ERROR: Could not build wheels for pycocotools, which is required to install pyproject.toml-based projects
-      ```
-
-    **Solution:**
-
-    Install gcc.  For Ubuntu, this will be: 
-
-      ```bash
-      apt install gcc
-      ```
-
-2. ImportError: libGL.so.1: cannot open shared object file: No such file or directory
+1. 环境创建问题：无法为 pycocotools 构建 wheel
    
-    **Issue:**
-      When training the model using `training.py`,
-      ```
-      ImportError: libGL.so.1: cannot open shared object file: No such file or directory
-      or
-      libgthread-2.0.so.0: cannot open shared object file: No such file or directory
-      ```
+   **问题：**使用 `drone-intel` 创建英特尔环境时
+   
+   ```
+   ERROR: Could not build wheels for pycocotools, which is required to install pyproject.toml-based projects
+   ```
+   
+   **解决方案：**
+   
+   安装 gcc。  对于 Ubuntu，情况将是：
+   
+   ```bash
+   apt install gcc
+   ```
 
-    **Solution:**
-
-      Install the libgl11-mesa-glx and libglib2.0-0 libraries. For Ubuntu this will be:
-
-      ```bash
-     sudo apt install libgl1-mesa-glx
-     sudo apt install libglib2.0-0
-      ```
-
-
-
+2. ImportError: libGL.so.1: 无法打开共享对象文件：没有此类文件或目录
+   
+   **问题：**使用 `training.py` 训练模型时
+   
+   ```
+   ImportError: libGL.so.1: cannot open shared object file: No such file or directory
+   or
+   libgthread-2.0.so.0: cannot open shared object file: No such file or directory
+   ```
+   
+   **解决方案：**
+   
+   安装 libgl11-mesa-glx 和 libglib2.0-0 库。对于 Ubuntu，情况将是：
+   
+   ```bash
+   sudo apt install libgl1-mesa-glx
+   sudo apt install libglib2.0-0
+   ```
