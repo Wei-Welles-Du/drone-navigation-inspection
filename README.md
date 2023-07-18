@@ -5,7 +5,7 @@
  - 用途 [Purpose](#purpose)
  - 参考解决方案 [Reference Solution](#reference-solution)
  - 参考实现方案  [Reference Implementation](#reference-implementation)
- - 英特尔®优化实现方式 [Intel® Optimized Implementation](#Intel®-Optimized-Implementation)
+ - 英特尔®优化实现方式 [Intel:registered: Optimized Implementation](#Intel:registered:-Optimized-Implementation)
  - 性能观察 [Performance Observations](#performance-observations)
 
 
