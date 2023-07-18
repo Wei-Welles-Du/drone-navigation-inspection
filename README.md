@@ -2,15 +2,17 @@
 ## 目录 
   
 
-- [用途](#Purpose | 用途)
-- [参考解决方案](#reference-solution)
-- [参考实现方案](#reference-implementation)
-- [英特尔® 优化实现方案](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
-- [性能观察](#performance-observations)
+ - [Purpose](#purpose)
+ - [Reference Solution](#reference-solution)
+ - [Reference Implementation](#reference-implementation)
+ - [Intel® Optimized Implementation](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
+ - [Performance Observations](#performance-observations)
 
 
 
-## Purpose | 用途
+## Purpose  
+| 用途  
+
 无人机是无人驾驶飞行器 (UAV) 或无人机系统。从本质上讲，无人机是一种飞行机器人，遥控装置可通过通信功能对其进行远程控制。尽管无人机在城市发展、建筑、基础设施、供应链、物流等领域有着巨大的应用价值，但其安全性却是一个大问题。
 
 无人机在商业上被用作急救车、警察部门的调查工具、高科技摄影，以及房地产、音乐会、体育赛事等的记录设备。本参考套件模型旨在提高无人机自主飞行的安全性，并改善在边缘（运行于基于 CPU 的硬件上）的着陆程序，而无需地面控制人员或现场人类飞行员。
@@ -23,7 +25,8 @@
 
 使用英特尔® oneAPI 可以进一步优化人工智能在无人机领域的应用，该工具可以提高计算密集型图像处理的性能，减少训练时间和推理时间，并能够压缩模型，确保其在边缘设备上高效运行，从而扩展复杂模型的使用。经过英特尔® oneDNN 优化的 TensorFlow 可提供额外的优化，进一步提升英特尔® CPU 的性能。
 
-## Reference Solution | 参考解决方案
+## Reference Solution  
+| 参考解决方案  
 
 该参考套件利用英特尔® oneAPI 演示了基于 TensorFlow 的人工智能模型的单向应用，该模型可用于无人机技术，并演示其如何帮助分割铺设区域，从而提高无人机安全着陆的概率。
 
