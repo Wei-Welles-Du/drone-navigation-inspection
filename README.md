@@ -641,7 +641,8 @@ optional arguments:
 python evaluation.py -d ../data/Aerial_Semantic_Segmentation_Drone_Dataset/dataset/semantic_drone_dataset -m ./model/inc_compressed_model/output.pb  -t 1
 ```
 
-## 性能观察
+## Performance Observations  
+| 性能观察  
 
 本部分介绍了本模型构建中原始版本 TensorFlow 2.8.0 和经过英特尔® oneDNN 优化的 TensorFlow 2.9.0 之间的训练时间和推理时间比较。
 
