@@ -5,7 +5,7 @@
  - [Purpose](#purpose)
  - [Reference Solution](#reference-solution)
  - [Reference Implementation](#reference-implementation)
- - [Intel® Optimized Implementation](#optimizing-the-end-to-end-solution-with-intel%C2%AE-oneapi-components)
+ - [Intel® Optimized Implementation](#Intel®-Optimized-Implementation)
  - [Performance Observations](#performance-observations)
 
 
